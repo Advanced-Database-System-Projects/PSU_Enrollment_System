@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header">
+    <p class="eyebrow">Reports</p>
+    <h1>{{ title }}</h1>
+    <p>Generate current reports from enrollment and payment records. Export results as PDF or Excel.</p>
+</section>
+<section class="resource-panel" aria-labelledby="report-resources-title">
+    <div class="resource-heading">
+        <div>
+            <p class="eyebrow">Available reports</p>
+            <h2 id="report-resources-title">Choose a report</h2>
+            <p>Open a report to review results or export the records available to your account.</p>
+        </div>
+    </div>
+    <div class="resource-grid">
+        {% if can_enrollment %}
+        <a class="resource-tile" href="{% url 'reports_published' %}?kind=enrollment">
+            <span class="resource-icon">▤</span><span><strong>Enrollment summary</strong><small>Enrolled students by program, year, subject, and term</small></span><span class="resource-arrow">→</span>
+        </a>
+        {% endif %}
+        {% if can_collection %}
+        <a class="resource-tile" href="{% url 'reports_published' %}?kind=collection">
+            <span class="resource-icon">₱</span><span><strong>Collection report</strong><small>Assessed charges, payments received, and balances</small></span><span class="resource-arrow">→</span>
+        </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

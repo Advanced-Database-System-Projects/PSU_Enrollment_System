@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header">
+    <p class="eyebrow">Finance</p>
+    <h1>{{ title }}</h1>
+    <p>Assessment forms show tuition, fees, payments, and current balances.</p>
+    <div class="report-exports finance-export-actions" aria-label="Print or export balances">
+        <button type="button" onclick="window.print()">Print balances</button>
+        <a href="{% url 'report_export' 'collection' 'pdf' %}">Download PDF</a>
+        <a href="{% url 'report_export' 'collection' 'xlsx' %}">Download Excel</a>
+    </div>
+</section>
+<div class="table-card">
+    <table>
+        <thead><tr><th>Student ID</th><th>Student</th><th>Term</th><th>Units</th><th>Assessment total</th><th>Paid</th><th>Balance</th><th>Form</th></tr></thead>
+        <tbody>
+        {% for assessment in invoices %}
+            <tr>
+                <td>{{ assessment.student.student_id }}</td>
+                <td>{{ assessment.student.user.get_full_name|default:assessment.student.user.username }}</td>
+                <td>{{ assessment.term }}</td><td>{{ assessment.units }}</td>
+                <td>{{ assessment.total|floatformat:2 }}</td><td>{{ assessment.paid|floatformat:2 }}</td>
+                <td>{{ assessment.balance|floatformat:2 }}</td>
+                <td><a href="{% url 'assessment_detail' assessment.pk %}">View assessment</a></td>
+            </tr>
+        {% empty %}<tr><td colspan="8">No assessment records found.</td></tr>{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

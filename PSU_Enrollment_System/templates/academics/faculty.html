@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header">
+    <p class="eyebrow">Academics</p>
+    <h1>{{ title }}</h1>
+    <p>Instructors with assigned class offerings.</p>
+</section>
+
+<p><a href="{% url 'academics_home' %}">Back to academic dashboard</a></p>
+
+{% if faculty_members %}
+<table>
+    <thead>
+        <tr>
+            <th>Faculty member</th>
+            <th>Email</th>
+            <th>Assigned offerings</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in faculty_members %}
+        <tr>
+            <td>{{ member.get_full_name|default:member.username }}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.teaching_offerings.count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No faculty members are currently available.</p>
+{% endif %}
+{% endblock %}
